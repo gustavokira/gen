@@ -18,7 +18,8 @@ class Individuo{
  
   public void calcularFitness(){
     
-    float fitness = 0.5;
+    float fitness = 0;
+    float raioImg = this.r/sqrt(pow(this.matriz.length,2)+pow(this.matriz[0].length,2));
     float pixelsEscuros = 0;
     int c = this.matriz[x][y];
     int xi = this.x-int(this.r);
@@ -26,6 +27,7 @@ class Individuo{
     int xf = int(xi+2*this.r);
     int yf = int(yi+2*this.r);
     int total = (xf-xi)*(yf-yi);
+    
     // se o raio esta fora da imagem
     if(total == 0 || xi < 0 || yi < 0 || xf > this.matriz.length || yf > this.matriz[0].length ){
      fitness = 0;
@@ -42,8 +44,7 @@ class Individuo{
       pixelsEscuros = qty/total;
     }
     
-    this.fitness = (fitness+pixelsEscuros)/2;
-    println(this.fitness);
+    this.fitness = (fitness+pixelsEscuros+raioImg)/3;
   }
   public Individuo misturar(Individuo outro){
     int fx = this.x;

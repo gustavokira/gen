@@ -1,6 +1,6 @@
 PImage img;
 int epocas = 100;
-int individuos = 50;
+int individuos = 100;
 int atual = 0;
 Geracao g;
 int[][] matriz;

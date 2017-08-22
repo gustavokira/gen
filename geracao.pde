@@ -22,6 +22,7 @@ class Geracao{
   }
   public void combinar(){
     this.autoOrdenar();
+    
     int qty = this.individuos.size();
     this.individuos.subList(floor(qty*1/3),qty).clear();
     ArrayList<Individuo> filhos = new ArrayList<Individuo>();
@@ -48,6 +49,7 @@ class Geracao{
       public int compare(Individuo i1,Individuo i2) 
       {
         if(i1.fitness < i2.fitness) return 1;
+        else if(i1.fitness == i2.fitness) return 0;
         else return -1;
       }
     });
