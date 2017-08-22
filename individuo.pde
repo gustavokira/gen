@@ -8,6 +8,15 @@ class Individuo{
     this.y = y;
     this.r = r;
     this.matriz = m;
+    
+    if(this.x < 0)this.x = 0;
+    if(this.y < 0)this.y = 0;
+    if(this.r < 5)this.r = 5;
+    
+    if(this.x > m.length)this.x = m.length;
+    if(this.y > m[0].length)this.y = m[0].length;
+ 
+    
     calcularFitness();
   }
   
@@ -19,9 +28,9 @@ class Individuo{
   public void calcularFitness(){
     
     float fitness = 0;
-    float raioImg = this.r/sqrt(pow(this.matriz.length,2)+pow(this.matriz[0].length,2));
-    float pixelsEscuros = 0;
-    int c = this.matriz[x][y];
+    float raioImg = 0;
+    //int c = this.matriz[x][y];
+    
     int xi = this.x-int(this.r);
     int yi = this.y-int(this.r);
     int xf = int(xi+2*this.r);
@@ -32,19 +41,42 @@ class Individuo{
     if(total == 0 || xi < 0 || yi < 0 || xf > this.matriz.length || yf > this.matriz[0].length ){
      fitness = 0;
     }else{
-      
-      int qty = 0;
+      int dentroDoRaio = 0;
+      int dentroDoRaioEscuro = 0;
+      int dentroDoRaioClaro = 0;
+      int foraDoRaio = 0;
+      int foraDoRaioEscuro = 0;
+      int foraDoRaioClaro = 0;
       for(int i = xi;i<xf;i++){
         for(int j = yi;j<yf;j++){
-          if(this.matriz[i][j] == 1){
-            qty++;
+            if(distToCentro(i,j)<=this.r){
+              dentroDoRaio++;
+              if(this.matriz[i][j] == 1){
+                dentroDoRaioEscuro++;
+              }else{
+                dentroDoRaioClaro++;
+              }
+            }else{
+              foraDoRaio++;
+              if(this.matriz[i][j] == 1){
+                foraDoRaioEscuro++;
+              }else{
+                foraDoRaioClaro++;
+              }
+            }
           }
         }
-      }
-      pixelsEscuros = qty/total;
+      
+      
+      float dentroEscuro = dentroDoRaioEscuro/dentroDoRaio;
+      float foraClaro = foraDoRaioClaro/foraDoRaio;
+      
+      //rel raio com diagonal
+      raioImg = this.r/sqrt(pow(this.matriz.length,2)+pow(this.matriz[0].length,2));
+      
+      fitness = (raioImg+dentroEscuro+foraClaro)/3;
     }
-    
-    this.fitness = (fitness+pixelsEscuros+raioImg)/3;
+    this.fitness = fitness;
   }
   public Individuo misturar(Individuo outro){
     int fx = this.x;
@@ -63,6 +95,29 @@ class Individuo{
     if(rr > 0.5){
       fr = outro.r;
     }
+    int offset = 50;
+    int roleta = 100;
+    
+    roleta = int(random(100));
+    if(roleta < 10){
+      offset = int(random(this.matriz.length));
+    }
+    rx = random(-offset,offset);
+    
+    roleta = int(random(100));
+    if(roleta < 10){
+      offset = int(random(this.matriz.length));
+    }
+    ry = random(-offset,offset);
+    
+    roleta = int(random(100));
+    if(roleta < 10){
+      offset = int(random(this.matriz.length));
+    }
+    rr = random(-offset,offset);
+    fx+=rx;
+    fy+=ry;
+    fr+=rr;
     return new Individuo(fx,fy,fr,this.matriz);
   }
   
