@@ -1,6 +1,6 @@
 PImage img;
-int epocas = 100;
-int individuos = 100;
+int epocas = 50;
+int individuos = 5000;
 int atual = 0;
 Geracao g;
 int[][] matriz;
@@ -34,8 +34,11 @@ void draw(){
   if(atual < epocas){
     image(img, 0, 0);
     g.combinar();
+    //g.desenhar();
     //println(g.individuos);
-    g.desenhar();
     atual++;
+    println(atual);
+  }else{
+    g.desenhar();
   }
 }

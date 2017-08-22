@@ -16,7 +16,7 @@ class Geracao{
   }
   public void desenhar(){
     for(int i =1;i<this.individuos.size();i++){
-      this.individuos.get(i).desenhar(255,0,0,150);
+      this.individuos.get(i).desenhar(255,0,0,5);
     }
     this.individuos.get(0).desenhar(0,255,0,255);
   }
@@ -34,9 +34,9 @@ class Geracao{
       filhos.add(filho);
     }
     this.individuos.addAll(filhos);
-    this.epoca++;
-    
+    this.epoca++; 
   }
+    
   public Individuo criarAleatorio(int w,int h,int[][] m){
     int x = int(random(w));
     int y = int(random(h));

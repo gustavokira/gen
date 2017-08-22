@@ -3,11 +3,13 @@ class Individuo{
   float fitness;
   float r;
   int[][] matriz;
+  float diag;
   public Individuo(int x, int y, float r,int[][] m){
     this.x = x;
     this.y = y;
     this.r = r;
     this.matriz = m;
+    this.diag = sqrt(pow(this.matriz.length,2)+pow(this.matriz[0].length,2));
     
     if(this.x < 0)this.x = 0;
     if(this.y < 0)this.y = 0;
@@ -47,6 +49,7 @@ class Individuo{
       int foraDoRaio = 0;
       int foraDoRaioEscuro = 0;
       int foraDoRaioClaro = 0;
+      
       for(int i = xi;i<xf;i++){
         for(int j = yi;j<yf;j++){
             if(distToCentro(i,j)<=this.r){
@@ -66,15 +69,22 @@ class Individuo{
             }
           }
         }
+      //pensar em matriz de confusao
       
+      float dentroCerto = (float)dentroDoRaioEscuro/dentroDoRaio;
+      float dentroErrado = (float)dentroDoRaioClaro/dentroDoRaio;
       
-      float dentroEscuro = dentroDoRaioEscuro/dentroDoRaio;
-      float foraClaro = foraDoRaioClaro/foraDoRaio;
+      float foraCerto = (float)foraDoRaioClaro/foraDoRaio;
+      float foraErrado = (float)foraDoRaioEscuro/foraDoRaio;
       
-      //rel raio com diagonal
-      raioImg = this.r/sqrt(pow(this.matriz.length,2)+pow(this.matriz[0].length,2));
+      float acc = (dentroCerto+foraCerto)/(dentroErrado+foraErrado);
+      println(dentroCerto,dentroErrado,foraCerto,foraErrado);
+      raioImg = (float)this.r/this.diag;
       
-      fitness = (raioImg+dentroEscuro+foraClaro)/3;
+      //fitness = acc;
+       fitness = acc+raioImg;
+ 
+      
     }
     this.fitness = fitness;
   }
@@ -95,29 +105,7 @@ class Individuo{
     if(rr > 0.5){
       fr = outro.r;
     }
-    int offset = 50;
-    int roleta = 100;
     
-    roleta = int(random(100));
-    if(roleta < 10){
-      offset = int(random(this.matriz.length));
-    }
-    rx = random(-offset,offset);
-    
-    roleta = int(random(100));
-    if(roleta < 10){
-      offset = int(random(this.matriz.length));
-    }
-    ry = random(-offset,offset);
-    
-    roleta = int(random(100));
-    if(roleta < 10){
-      offset = int(random(this.matriz.length));
-    }
-    rr = random(-offset,offset);
-    fx+=rx;
-    fy+=ry;
-    fr+=rr;
     return new Individuo(fx,fy,fr,this.matriz);
   }
   
