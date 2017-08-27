@@ -42,6 +42,9 @@ class Geracao{
       filhos.add(filho);
     }
     this.individuos.addAll(filhos);
+    
+    
+    
     this.epoca++; 
   }
     

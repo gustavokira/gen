@@ -11,8 +11,8 @@ String url;
 void settings() {   
   
   //url = "teste.bmp";
-    //url = "teste-2.gif";
-    url = "teste-3.jpg";
+    url = "teste-2.gif";
+    //url = "teste-3.jpg";
 
    img = loadImage(url);
    size(img.width,img.height);
