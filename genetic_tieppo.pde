@@ -1,17 +1,29 @@
 PImage img;
-int epocas = 50;
-int individuos = 5000;
+int epocas = 30;
+int individuos = 10000;
 int atual = 0;
 Geracao g;
 int[][] matriz;
+
+String url;
+
+
+void settings() {   
+  
+  //url = "teste.bmp";
+    //url = "teste-2.gif";
+    url = "teste-3.jpg";
+
+   img = loadImage(url);
+   size(img.width,img.height);
+}
 void setup() {
-  size(500,428);
-  img = loadImage("teste.bmp");
-  matriz = new int[500][428];
+  
+  matriz = new int[img.width][img.height];
   
   for(int i =0;i<img.pixels.length;i++){
-    int x = i/500;
-    int y = i%500;
+    int x = i/img.width;
+    int y = i%img.width;
     int c = img.pixels[i];
     if(c == -1){
       matriz[y][x] = 0;
@@ -21,13 +33,6 @@ void setup() {
   }
   g = new Geracao(individuos,500,428,matriz);
   
-  //for(int i =0;i<matriz.length;i++){
-  //  String s = "";
-  //  for(int j =0;j<matriz[i].length;j++){
-  //    s+=matriz[i][j];
-  //  }
-  //  println(s);
-  //}
 }
 
 void draw(){
@@ -35,10 +40,12 @@ void draw(){
     image(img, 0, 0);
     g.combinar();
     //g.desenhar();
+    g.desenharTopo(10);
     //println(g.individuos);
     atual++;
     println(atual);
   }else{
-    g.desenhar();
+    //g.desenhar();
+    g.desenharTopo(1);
   }
 }

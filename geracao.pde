@@ -20,6 +20,14 @@ class Geracao{
     }
     this.individuos.get(0).desenhar(0,255,0,255);
   }
+  
+  public void desenharTopo(int qty){
+    for(int i =1;i<qty-1;i++){
+      this.individuos.get(i).desenhar(255,0,0,5);
+    }
+    this.individuos.get(0).desenhar(0,255,0,255);
+  }
+  
   public void combinar(){
     this.autoOrdenar();
     

@@ -4,6 +4,9 @@ class Individuo{
   float r;
   int[][] matriz;
   float diag;
+  
+  int xi,yi,xf,yf;
+  
   public Individuo(int x, int y, float r,int[][] m){
     this.x = x;
     this.y = y;
@@ -25,18 +28,17 @@ class Individuo{
   public float distToCentro(int x,int y){
     return sqrt( pow(y-this.y,2) + pow(x-this.x,2)  );
   }
-  
+
  
   public void calcularFitness(){
     
     float fitness = 0;
-    float raioImg = 0;
-    //int c = this.matriz[x][y];
     
-    int xi = this.x-int(this.r);
-    int yi = this.y-int(this.r);
-    int xf = int(xi+2*this.r);
-    int yf = int(yi+2*this.r);
+    xi = this.x-int(this.r);
+    yi = this.y-int(this.r);
+    xf = int(xi+(2*this.r));
+    yf = int(yi+(2*this.r));
+    
     int total = (xf-xi)*(yf-yi);
     
     // se o raio esta fora da imagem
@@ -78,13 +80,8 @@ class Individuo{
       float foraErrado = (float)foraDoRaioEscuro/foraDoRaio;
       
       float acc = (dentroCerto+foraCerto)/(dentroErrado+foraErrado);
-      println(dentroCerto,dentroErrado,foraCerto,foraErrado);
-      raioImg = (float)this.r/this.diag;
       
-      //fitness = acc;
-       fitness = acc+raioImg;
- 
-      
+      fitness = acc;
     }
     this.fitness = fitness;
   }
@@ -114,7 +111,9 @@ class Individuo{
     point(this.x,this.y);
     noFill();
     stroke(r,g,b,a);
-    ellipse(this.x,this.y,this.r,this.r);
+    ellipse(this.x,this.y,this.r*2,this.r*2);
+    stroke(0,0,255);
+    rect(this.xi,this.yi,this.xf-this.xi,this.yf-this.yi);
   }
   @Override
   public String toString(){
